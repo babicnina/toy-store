@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace PetToyShop.Models
 {
-    public class Toy
+    public class Pet
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(100)]
+        [StringLength(50)]
         public string Name { get; set; }
-        [Range(0, 999.99)]
-        public decimal Price { get; set; }
-        public int? PetId { get; set; }
-        public Pet Pet { get; set; }
-
-
+        public ICollection<Toy> Toys { get; set; }
     }
 }

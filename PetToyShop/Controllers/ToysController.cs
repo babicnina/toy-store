@@ -20,15 +20,20 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int petId)
         {
-
-            var toys = from m in _context.Toy
-                         select m;
-
+            var toys = _context.Toy
+               .Include(t => t.Pet)
+               .AsNoTracking();
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 toys = toys.Where(s => s.Name.Contains(searchString));
+            }
+
+            if (petId != 0)
+            {
+                toys = toys.Where(s => s.PetId.Equals(petId));
             }
 
             return View(await toys.ToListAsync());
@@ -42,8 +47,8 @@ namespace PetToyShop.Controllers
                 return NotFound();
             }
 
-            var toy = await _context.Toy
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var toy = await _context.Toy.Include(t=>t.Pet).AsNoTracking()
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (toy == null)
             {
                 return NotFound();
@@ -55,6 +60,7 @@ namespace PetToyShop.Controllers
         // GET: Toys/Create
         public IActionResult Create()
         {
+            PopulatePetsList();
             return View();
         }
 
@@ -63,8 +69,10 @@ namespace PetToyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price")] Toy toy)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,PetId")] Toy toy)
         {
+            //toy.Pet = (from u in _context.User where u.Id == task.UserId select u).FirstOrDefault();
+            toy.Pet = _context.Pet.Where(p => p.Id == toy.PetId).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 _context.Add(toy);
@@ -87,6 +95,7 @@ namespace PetToyShop.Controllers
             {
                 return NotFound();
             }
+            PopulatePetsList(toy.PetId);
             return View(toy);
         }
 
@@ -95,7 +104,7 @@ namespace PetToyShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Toy toy)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,PetId")] Toy toy)
         {
             if (id != toy.Id)
             {
@@ -133,7 +142,7 @@ namespace PetToyShop.Controllers
                 return NotFound();
             }
 
-            var toy = await _context.Toy
+            var toy = await _context.Toy.Include(t=>t.Pet).AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (toy == null)
             {
@@ -157,6 +166,15 @@ namespace PetToyShop.Controllers
         private bool ToyExists(int id)
         {
             return _context.Toy.Any(e => e.Id == id);
+        }
+
+        private void PopulatePetsList(object selectedPet = null)
+        {
+            /*var uses = from u in _context.User
+                        orderby u.FirstName
+                        select u;*/
+            var users = _context.Pet.OrderBy(p => p.Name).AsNoTracking();
+            ViewBag.Pets = new SelectList(users, "Id", "Name", selectedPet);
         }
     }
 }

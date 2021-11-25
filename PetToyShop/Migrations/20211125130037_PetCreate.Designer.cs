@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetToyShop.Data;
 
 namespace PetToyShop.Migrations
 {
     [DbContext(typeof(PetToyShopContext))]
-    partial class PetToyShopContextModelSnapshot : ModelSnapshot
+    [Migration("20211125130037_PetCreate")]
+    partial class PetCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,15 +250,10 @@ namespace PetToyShop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("PetId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PetId");
 
                     b.ToTable("Toy");
                 });
@@ -310,22 +307,6 @@ namespace PetToyShop.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PetToyShop.Models.Toy", b =>
-                {
-                    b.HasOne("PetToyShop.Models.Pet", "Pet")
-                        .WithMany("Toys")
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pet");
-                });
-
-            modelBuilder.Entity("PetToyShop.Models.Pet", b =>
-                {
-                    b.Navigation("Toys");
                 });
 #pragma warning restore 612, 618
         }

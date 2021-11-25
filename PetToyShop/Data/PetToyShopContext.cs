@@ -16,5 +16,14 @@ namespace PetToyShop.Data
         }
 
         public DbSet<PetToyShop.Models.Toy> Toy { get; set; }
+
+        public DbSet<PetToyShop.Models.Pet> Pet { get; set; }
+
+       /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Models.Toy>()
+                .HasOne(p => p.Pet)
+                .WithMany(b => b.Toys);
+        }*/
     }
 }

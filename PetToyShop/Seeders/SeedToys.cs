@@ -27,25 +27,29 @@ namespace ToyShop.Seeders
                     new Toy
                     {
                         Name = "toy1",
-                        Price = 7.99M
+                        Price = 7.99M,
+                        Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
                         Name = "toy2",
-                        Price = 7.99M
+                        Price = 7.99M,
+                        Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
                         Name = "toy3",
-                        Price = 7.99M
+                        Price = 7.99M,
+                        Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
                         Name = "toy4",
-                        Price = 7.99M
+                        Price = 7.99M,
+                        Pet = (from p in context.Pet select p).First()
                     }
                 );
                 context.SaveChanges();
