@@ -9,7 +9,7 @@ using PetToyShop.Models;
 
 namespace ToyShop.Seeders
 {
-    public class SeedToys
+    public class ToysSeed
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {

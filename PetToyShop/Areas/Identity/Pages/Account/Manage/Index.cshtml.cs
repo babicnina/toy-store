@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using PetToyShop.Models;
 
 namespace PetToyShop.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,21 +33,31 @@ namespace PetToyShop.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+            [Display(Name = "Username")]
+            public string Username { get; set; }
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Username = userName,
+                FirstName = firstName,
+                LastName = lastName,
             };
         }
 
@@ -77,6 +88,18 @@ namespace PetToyShop.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            if (Input.FirstName != firstName)
+            {
+                user.FirstName = Input.FirstName;
+                await _userManager.UpdateAsync(user);
+            }
+            if (Input.LastName != lastName)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
