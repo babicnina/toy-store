@@ -1,6 +1,7 @@
-﻿@model IEnumerable<PetToyShop.Models.ManageRolesViewModel>
+﻿@model List<ManageRolesViewModel>
 @{
     ViewData["Title"] = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <form method="post">
     <div class="card">
@@ -9,14 +10,14 @@
             Add/Remove Roles for User / @ViewBag.UserName.
         </div>
         <div class="card-body">
-            @foreach (var role in Model)
+            @for (int i = 0; i < Model.Count; i++)
             {
                 <div class="form-check m-1">
-                    <input type="hidden" asp-for="@role.RoleId" />
-                    <input type="hidden" asp-for="@role.RoleName" />
-                    <input asp-for="@role.SelectedRole" class="form-check-input" />
-                    <label class="form-check-label" asp-for="@role.SelectedRole">
-                        @role.RoleName
+                    <input type="hidden" asp-for="@Model[i].RoleId" />
+                    <input type="hidden" asp-for="@Model[i].RoleName" />
+                    <input asp-for="@Model[i].SelectedRole" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model[i].SelectedRole">
+                        @Model[i].RoleName
                     </label>
                 </div>
             }
@@ -25,7 +26,7 @@
         <div class="card-footer">
             <input type="submit" value="Update" class="btn btn-primary"
                    style="width:auto" />
-            <a asp-action="EditUser" asp-route-id="@ViewBag.userId"
+            <a asp-action="Index"
                class="btn btn-primary" style="width:auto">Cancel</a>
         </div>
     </div>
