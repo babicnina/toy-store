@@ -1,7 +1,7 @@
 ﻿@model List<ManageRolesViewModel>
 @{
     ViewData["Title"] = "Manage";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 <form method="post">
     <div class="card">
@@ -24,10 +24,10 @@
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
         <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary"
+            <input type="submit" value="Update" class="btn btn-primary btn-sm"
                    style="width:auto" />
             <a asp-action="Index"
-               class="btn btn-primary" style="width:auto">Cancel</a>
+               class="btn btn-secondary btn-sm" style="width:auto">Cancel</a>
         </div>
     </div>
 </form>

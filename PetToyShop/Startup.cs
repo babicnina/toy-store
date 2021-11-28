@@ -32,9 +32,11 @@ namespace PetToyShop
             services.AddDbContext<PetToyShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("PetToyShopContext")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<PetToyShopContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<PetToyShopContext>();
+                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+                
             services.AddRazorPages();
         }
 

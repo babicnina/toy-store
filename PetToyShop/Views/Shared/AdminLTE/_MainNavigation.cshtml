@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <li class="nav-item">
+                <a class="nav-link text-lightblue" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@(User.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value)</a>
+            </li>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <li class="nav-item ">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-controller="Home" asp-action="Privacy" class="nav-link">
+                        <i class="nav-icon fas fa-lock"></i>
+                        <p>
+                            Privacy
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-controller="UserRoles" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Users
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-controller="Pets" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-paw"></i>
+                        <p>
+                            Pets
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-controller="Toys" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-list-ul"></i>
+                        <p>
+                            Toys
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a asp-controller="Toys" asp-action="Index" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Purchases
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
