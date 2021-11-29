@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PetToyShop.Data;
+using PetToyShop.Models;
+using PetToyShop.Seeders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +17,7 @@ namespace PetToyShop
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -23,7 +27,12 @@ namespace PetToyShop
 
                 try
                 {
-                    SeedToys.Initialize(services);
+                    ToysSeed.Initialize(services);
+                    var context = services.GetRequiredService<PetToyShopContext>();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await RolesSeed.SeedRolesAsync(userManager, roleManager);
+                    await DefaultUserSeed.SeedSuperAdminAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

@@ -1,7 +1,8 @@
 ﻿@{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
     {
-        Layout = (string)parentLayout;
+        // Layout = (string)parentLayout;
+        Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     }
     else
     {

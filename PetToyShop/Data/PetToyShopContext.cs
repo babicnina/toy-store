@@ -8,7 +8,7 @@ using PetToyShop.Models;
 
 namespace PetToyShop.Data
 {
-    public class PetToyShopContext : IdentityDbContext
+    public class PetToyShopContext : IdentityDbContext<ApplicationUser>
     {
         public PetToyShopContext (DbContextOptions<PetToyShopContext> options)
             : base(options)

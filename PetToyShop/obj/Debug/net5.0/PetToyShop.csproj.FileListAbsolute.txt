@@ -406,3 +406,11 @@ C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\C
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Delete.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Edit.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Index.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\UserRoles\Index.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\UserRoles\Manage.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Footer.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Layout.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_MainNavigation.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Scripts.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Styles.cshtml.g.cs
+C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_TopNavigation.cshtml.g.cs

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PetToyShop.Data;
+using PetToyShop.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,12 @@ namespace PetToyShop
             services.AddControllersWithViews();
             services.AddDbContext<PetToyShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("PetToyShopContext")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<PetToyShopContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<PetToyShopContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
+                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+                
             services.AddRazorPages();
         }
 
