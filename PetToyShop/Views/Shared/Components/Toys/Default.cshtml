@@ -1,0 +1,52 @@
+﻿@model CartViewModel
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var toy in Model.ActivePurchase.ToyItems)
+        {
+            <tr>
+                <td>@toy.Name</td>
+                <td>@toy.Price</td>
+                <td>
+                    <a asp-action="RemoveToy" asp-controller="Purchases" asp-route-id="@toy.Id" class="btn btn-secondary btn-sm">-</a>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>Total: </td>
+            <td>@Model.ActivePurchase.TotalPrice</td>
+        </tr>
+        <tr>
+            <td>Bank Account: </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label asp-for="BankAccount" class="control-label"></label>
+                    <select asp-for="BankAccount.Id" asp-items="ViewBag.Pets" class="custom-select"></select>
+                    <span asp-validation-for="BankAccount.Id" class="text-danger"></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a asp-action="Create" asp-controller="BankAccounts" class="btn btn-secondary btn-sm">Add new</a>
+            </td>
+        </tr>
+        <tr>
+            <td> 
+                <a asp-action="RemoveAllToys" asp-controller="Purchases" asp-route-id="@Model.ActivePurchase.Id" class="btn btn-secondary btn-sm">Remove All</a>
+            </td>
+            <td> 
+                <a asp-action="ConcludePurshase" asp-controller="Purchases" asp-route-id="@Model.ActivePurchase.Id" class="btn btn-secondary btn-sm">Buy</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -10,5 +10,8 @@ namespace PetToyShop.Models
     { 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public ICollection<BankAccount> Accounts { get; set; }
+        public ICollection<Purchase> Purchases { get; set; }
     }
 }

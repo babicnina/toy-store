@@ -225,6 +225,37 @@ namespace PetToyShop.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PetToyShop.Models.BankAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("BankAccountNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("BankAccount");
+                });
+
             modelBuilder.Entity("PetToyShop.Models.Pet", b =>
                 {
                     b.Property<int>("Id")
@@ -240,6 +271,37 @@ namespace PetToyShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pet");
+                });
+
+            modelBuilder.Entity("PetToyShop.Models.Purchase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BankAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeOfPurchase")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Purchase");
                 });
 
             modelBuilder.Entity("PetToyShop.Models.Toy", b =>
@@ -265,6 +327,21 @@ namespace PetToyShop.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("Toy");
+                });
+
+            modelBuilder.Entity("PurchaseToy", b =>
+                {
+                    b.Property<int>("PurchasesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ToyItemsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PurchasesId", "ToyItemsId");
+
+                    b.HasIndex("ToyItemsId");
+
+                    b.ToTable("PurchaseToy");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -318,6 +395,30 @@ namespace PetToyShop.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PetToyShop.Models.BankAccount", b =>
+                {
+                    b.HasOne("PetToyShop.Models.ApplicationUser", "User")
+                        .WithMany("Accounts")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PetToyShop.Models.Purchase", b =>
+                {
+                    b.HasOne("PetToyShop.Models.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId");
+
+                    b.HasOne("PetToyShop.Models.ApplicationUser", "User")
+                        .WithMany("Purchases")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PetToyShop.Models.Toy", b =>
                 {
                     b.HasOne("PetToyShop.Models.Pet", "Pet")
@@ -325,6 +426,28 @@ namespace PetToyShop.Migrations
                         .HasForeignKey("PetId");
 
                     b.Navigation("Pet");
+                });
+
+            modelBuilder.Entity("PurchaseToy", b =>
+                {
+                    b.HasOne("PetToyShop.Models.Purchase", null)
+                        .WithMany()
+                        .HasForeignKey("PurchasesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetToyShop.Models.Toy", null)
+                        .WithMany()
+                        .HasForeignKey("ToyItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PetToyShop.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Accounts");
+
+                    b.Navigation("Purchases");
                 });
 
             modelBuilder.Entity("PetToyShop.Models.Pet", b =>

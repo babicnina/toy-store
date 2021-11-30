@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace PetToyShop.Controllers
     public class ToysController : Controller
     {
         private readonly PetToyShopContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ToysController(PetToyShopContext context)
+        public ToysController(PetToyShopContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Toys
@@ -166,6 +169,34 @@ namespace PetToyShop.Controllers
         private bool ToyExists(int id)
         {
             return _context.Toy.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> Buy(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+           
+            var toy = _context.Toy.Where(t => t.Id == id).FirstOrDefault();
+
+            Purchase purchase = _context.Purchase.Where(x => x.User.Id == currentUser.Id && x.BankAccount == null).FirstOrDefault();
+            if (purchase == null)
+            {
+                purchase = new Purchase();
+                purchase.User = currentUser;
+                purchase.BankAccount = _context.BankAccount.Where(b => b.User.Id == currentUser.Id).FirstOrDefault();
+                purchase.TotalPrice = _context.Toy.First(t => t.Id == id).Price;
+                purchase.ToyItems = new List<Toy>();
+                purchase.ToyItems.Add(toy);
+                _context.Add(purchase);
+                await _context.SaveChangesAsync();
+            } else
+            {
+                purchase.ToyItems = purchase.ToyItems ?? new List<Toy>();
+                purchase.ToyItems.Add(toy);
+                purchase.TotalPrice += _context.Toy.First(t => t.Id == id).Price;
+                await _context.SaveChangesAsync();
+            }
+           
+            return RedirectToAction("Index", "Toys");
         }
 
         private void PopulatePetsList(object selectedPet = null)
