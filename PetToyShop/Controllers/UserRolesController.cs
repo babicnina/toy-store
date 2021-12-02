@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PetToyShop.Data;
 using PetToyShop.Models;
 using System;
 using System.Collections.Generic;
@@ -9,14 +11,17 @@ using System.Threading.Tasks;
 
 namespace PetToyShop.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserRolesController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public UserRolesController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly PetToyShopContext _context;
+        public UserRolesController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, PetToyShopContext context)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _context = context;
         }
         public async Task<IActionResult> Index()
         {
@@ -29,6 +34,7 @@ namespace PetToyShop.Controllers
                 thisViewModel.Email = user.Email;
                 thisViewModel.FirstName = user.FirstName;
                 thisViewModel.LastName = user.LastName;
+                thisViewModel.Accounts = GetUserAccounts(user);
                 thisViewModel.Roles = await GetUserRoles(user);
                 userRolesViewModel.Add(thisViewModel);
             }
@@ -37,6 +43,12 @@ namespace PetToyShop.Controllers
         private async Task<List<string>> GetUserRoles(ApplicationUser user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
+        }
+
+        private List<string> GetUserAccounts(ApplicationUser user)
+        {
+            var belongingAccounts = _context.BankAccount.Where(b => b.User.Id == user.Id).Select(el=>el.Name).ToList();
+            return belongingAccounts;
         }
 
         public async Task<IActionResult> Manage(string userId)

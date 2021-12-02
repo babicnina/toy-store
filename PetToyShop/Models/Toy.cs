@@ -16,6 +16,7 @@ namespace PetToyShop.Models
         public decimal Price { get; set; }
         public int? PetId { get; set; }
         public Pet Pet { get; set; }
+        public ICollection<Purchase> Purchases { get; set; }
 
 
     }

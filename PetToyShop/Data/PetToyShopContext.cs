@@ -19,6 +19,11 @@ namespace PetToyShop.Data
 
         public DbSet<PetToyShop.Models.Pet> Pet { get; set; }
 
+        public DbSet<PetToyShop.Models.BankAccount> BankAccount { get; set; }
+
+        public DbSet<PetToyShop.Models.Purchase> Purchase { get; set; }
+
+
        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Toy>()

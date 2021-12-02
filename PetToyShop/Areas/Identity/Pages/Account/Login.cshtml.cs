@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PetToyShop.Models;
 using System.Net.Mail;
+using PetToyShop.Data;
 
 namespace PetToyShop.Areas.Identity.Pages.Account
 {

@@ -31,7 +31,10 @@ namespace PetToyShop
             services.AddControllersWithViews();
             services.AddDbContext<PetToyShopContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("PetToyShopContext")));
-            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Stores.MaxLengthForKeys = 128; 
+            })
                 .AddEntityFrameworkStores<PetToyShopContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
@@ -66,7 +69,7 @@ namespace PetToyShop
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Toys}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

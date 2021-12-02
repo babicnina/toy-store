@@ -1,0 +1,63 @@
+﻿@model CartViewModel
+
+    <div class="p-3">
+        <h5 style="color:cornflowerblue">Shopping Cart</h5>
+        <hr />
+        <p style="color:lightskyblue">Items in your cart</p>
+    </div>
+<form asp-controller="Purchases" asp-action="ConcludePurchase">
+    <input type="hidden" asp-for="@Model.ActivePurchaseId" />
+    <table class="table table-striped accent-blue">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var toy in Model.ActivePurchase.ToyItems)
+            {
+                <tr>
+                    <td>@toy.Name</td>
+                    <td>@toy.Price</td>
+                    <td>
+                        <a asp-action="RemoveToy" asp-controller="Purchases" asp-route-id="@toy.Id">
+                            <i class="fas fa-times-circle" style="color:yellowgreen"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="p-2">
+        <h6>Total: </h6>
+        <p>@Model.ActivePurchase.TotalPrice</p>
+    </div>
+    <hr />
+    <div class="p-2">
+        <h6>Bank Account: </h6>
+        <div class="row align-items-center">
+            <div class="col-10">
+                <select id="list" asp-for="BankAccountId" asp-items="ViewBag.BankAccounts" class="custom-select"></select>
+            </div>
+            <div class="col-2">
+                <a asp-action="Create" asp-controller="BankAccounts">
+                    <i class="fas fa-plus-circle" style="color:cornflowerblue"></i>
+                </a>
+            </div>
+        </div>
+        <hr />
+        <div class="p-2 row">
+            <div class="col-6">
+                <a asp-action="RemoveAllToys" asp-controller="Purchases" asp-route-id="@Model.ActivePurchaseId" class="btn btn-danger btn-sm">Remove All</a>
+            </div>
+            <div class="col-6">
+                <input type="submit" value="Finish" class="btn btn-primary btn-sm" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+

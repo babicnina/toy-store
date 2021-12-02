@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PetToyShop.Models.Purchase>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<h1>Purchases</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BankAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOfPurchase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @{
+                    var fullName = item.User.FirstName + " " + item.User.LastName;
+                    @Html.DisplayFor(modelItem => fullName)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAccount.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeOfPurchase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
