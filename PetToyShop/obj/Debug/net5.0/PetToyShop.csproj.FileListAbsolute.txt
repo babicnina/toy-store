@@ -391,10 +391,7 @@ C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\C
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Delete.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Edit.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Pets\Index.cshtml.g.cs
-C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Purchases\Create.cshtml.g.cs
-C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Purchases\Delete.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Purchases\Details.cshtml.g.cs
-C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Purchases\Edit.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Purchases\Index.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Footer.cshtml.g.cs
 C:\Users\Nina\Documents\toy-store\PetToyShop\obj\Debug\net5.0\Razor\Views\Shared\AdminLTE\_Layout.cshtml.g.cs

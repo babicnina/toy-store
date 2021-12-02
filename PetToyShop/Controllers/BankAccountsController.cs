@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using PetToyShop.Models;
 
 namespace PetToyShop.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class BankAccountsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

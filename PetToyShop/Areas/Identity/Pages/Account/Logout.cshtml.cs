@@ -33,11 +33,12 @@ namespace PetToyShop.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToPage("./Login");
+                //LocalRedirect(returnUrl);
             }
             else
             {
-                return RedirectToPage();
+                return RedirectToPage("./Login");
             }
         }
     }

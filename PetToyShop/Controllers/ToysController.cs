@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,6 +24,7 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys
+        [Authorize(Roles = "Admin,Customer")]
         public async Task<IActionResult> Index(string searchString, int petId)
         {
             var toys = _context.Toy
@@ -43,6 +45,7 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys/Details/5
+        [Authorize(Roles = "Admin,Customer")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,6 +64,7 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             PopulatePetsList();
@@ -70,6 +74,7 @@ namespace PetToyShop.Controllers
         // POST: Toys/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,PetId")] Toy toy)
@@ -86,6 +91,7 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,6 +111,7 @@ namespace PetToyShop.Controllers
         // POST: Toys/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,PetId")] Toy toy)
@@ -138,6 +145,7 @@ namespace PetToyShop.Controllers
         }
 
         // GET: Toys/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +164,7 @@ namespace PetToyShop.Controllers
         }
 
         // POST: Toys/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -171,39 +180,23 @@ namespace PetToyShop.Controllers
             return _context.Toy.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> Buy(int id)
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> AddToCart(int id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-           
-            var toy = _context.Toy.Where(t => t.Id == id).FirstOrDefault();
-
-            Purchase purchase = _context.Purchase.Where(x => x.User.Id == currentUser.Id && x.BankAccount == null).FirstOrDefault();
-            if (purchase == null)
+            var toy = _context.Toy.Find(id);
+            var purchase = _context.Purchase.Include(p => p.ToyItems).Where(x => x.User.Id == currentUser.Id && x.BankAccount == null).FirstOrDefault();
+            if (!purchase.ToyItems.Contains(toy))
             {
-                purchase = new Purchase();
-                purchase.User = currentUser;
-                purchase.BankAccount = _context.BankAccount.Where(b => b.User.Id == currentUser.Id).FirstOrDefault();
-                purchase.TotalPrice = _context.Toy.First(t => t.Id == id).Price;
-                purchase.ToyItems = new List<Toy>();
                 purchase.ToyItems.Add(toy);
-                _context.Add(purchase);
-                await _context.SaveChangesAsync();
-            } else
-            {
-                purchase.ToyItems = purchase.ToyItems ?? new List<Toy>();
-                purchase.ToyItems.Add(toy);
-                purchase.TotalPrice += _context.Toy.First(t => t.Id == id).Price;
+                purchase.TotalPrice += _context.Toy.Find(id).Price;
                 await _context.SaveChangesAsync();
             }
-           
             return RedirectToAction("Index", "Toys");
         }
 
         private void PopulatePetsList(object selectedPet = null)
         {
-            /*var uses = from u in _context.User
-                        orderby u.FirstName
-                        select u;*/
             var users = _context.Pet.OrderBy(p => p.Name).AsNoTracking();
             ViewBag.Pets = new SelectList(users, "Id", "Name", selectedPet);
         }
