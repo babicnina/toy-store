@@ -29,24 +29,25 @@ namespace PetToyShop.Controllers
         // GET: BankAccounts
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-           /* if (User.Identity.IsAuthenticated)
-            {
-                ViewBag.CurrentUserName = currentUser.UserName;
-            }*/
+            var currentUser = await _userManager.GetUserAsync(User); 
+            
             return View(await _context.BankAccount.Where(b=> b.User.Id == currentUser.Id ).ToListAsync());
         }
 
         // GET: BankAccounts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var bankAccount = await _context.BankAccount
+                .Include(b=>b.User)
+               .FirstOrDefaultAsync(b => b.Id == id);
+            if (_userManager.GetUserId(HttpContext.User) != bankAccount.User.Id)
+            {
+                return Redirect("~/Identity/Account/AccessDenied");
+            }
             if (id == null)
             {
                 return NotFound();
             }
-
-            var bankAccount = await _context.BankAccount
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (bankAccount == null)
             {
                 return NotFound();
@@ -76,18 +77,26 @@ namespace PetToyShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(bankAccount);
         }
 
         // GET: BankAccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var bankAccount = await _context.BankAccount
+              .Include(b => b.User)
+             .FirstOrDefaultAsync(b => b.Id == id);
+           /* var bankAccount = await _context.BankAccount
+                .FindAsync(id);*/
+            if (_userManager.GetUserId(HttpContext.User) != bankAccount.User.Id)
+            {
+                return Redirect("~/Identity/Account/AccessDenied");
+            }
             if (id == null)
             {
                 return NotFound();
             }
-
-            var bankAccount = await _context.BankAccount.FindAsync(id);
             if (bankAccount == null)
             {
                 return NotFound();
@@ -133,13 +142,19 @@ namespace PetToyShop.Controllers
         // GET: BankAccounts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var bankAccount = await _context.BankAccount
+             .Include(b => b.User)
+            .FirstOrDefaultAsync(b => b.Id == id);
+            /* var bankAccount = await _context.BankAccount
+                 .FindAsync(id);*/
+            if (_userManager.GetUserId(HttpContext.User) != bankAccount.User.Id)
+            {
+                return Redirect("~/Identity/Account/AccessDenied");
+            }
             if (id == null)
             {
                 return NotFound();
             }
-
-            var bankAccount = await _context.BankAccount
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (bankAccount == null)
             {
                 return NotFound();
