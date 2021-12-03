@@ -17,7 +17,7 @@ namespace ToyShop.Seeders
                 serviceProvider.GetRequiredService<
                     DbContextOptions<PetToyShopContext>>()))
             {
-                // Look for any movies.
+                // Look for any toys.
                 if (context.Toy.Any())
                 {
                     return;   // DB has been seeded
@@ -26,31 +26,80 @@ namespace ToyShop.Seeders
                 context.Toy.AddRange(
                     new Toy
                     {
-                        Name = "toy1",
+                        Name = "Rope Whale",
                         Price = 7.99M,
                         Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
-                        Name = "toy2",
+                        Name = "Ball Knot Rope",
                         Price = 7.99M,
                         Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
-                        Name = "toy3",
+                        Name = "Floppy Knots Fox",
                         Price = 7.99M,
                         Pet = (from p in context.Pet select p).First()
                     },
 
                     new Toy
                     {
-                        Name = "toy4",
+                        Name = "Squeaking Alligator",
                         Price = 7.99M,
                         Pet = (from p in context.Pet select p).First()
-                    }
+                    },
+
+                     new Toy
+                     {
+                         Name = "Wishbone Bacon Flavor",
+                         Price = 7.99M,
+                         Pet = (from p in context.Pet select p).First()
+                     },
+                      new Toy
+                      {
+                          Name = "Knots Bear",
+                          Price = 7.99M,
+                          Pet = (from p in context.Pet select p).First()
+                      },
+                       new Toy
+                       {
+                           Name = "Squeezz Crackle Bone",
+                           Price = 7.99M,
+                           Pet = (from p in context.Pet select p).First()
+                       },
+                        new Toy
+                        {
+                            Name = "Dynos T-Rex",
+                            Price = 7.99M,
+                            Pet = (from p in context.Pet select p).First()
+                        },
+                         new Toy
+                         {
+                             Name = "Coloful Springs",
+                             Price = 7.99M,
+                             Pet = (from p in context.Pet select p).First()
+                         },
+                          new Toy
+                          {
+                              Name = "Mice",
+                              Price = 7.99M,
+                              Pet = (from p in context.Pet select p).First()
+                          },
+                           new Toy
+                           {
+                               Name = "Laser",
+                               Price = 7.99M,
+                               Pet = (from p in context.Pet select p).First()
+                           },
+                            new Toy
+                            {
+                                Name = "Sponge Soccer Ball",
+                                Price = 7.99M,
+                                Pet = (from p in context.Pet select p).First()
+                            }
                 );
                 context.SaveChanges();
             }

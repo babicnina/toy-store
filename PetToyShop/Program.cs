@@ -27,12 +27,14 @@ namespace PetToyShop
 
                 try
                 {
+                    PetsSeed.Initialize(services);
                     ToysSeed.Initialize(services);
                     var context = services.GetRequiredService<PetToyShopContext>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await RolesSeed.SeedRolesAsync(userManager, roleManager);
-                    await DefaultUserSeed.SeedSuperAdminAsync(userManager, roleManager);
+                    await DefaultUserSeed.SeedAdminAsync(userManager, roleManager);
+                    await DefaultUserSeed.SeedCustomerAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

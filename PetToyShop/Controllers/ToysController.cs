@@ -25,17 +25,12 @@ namespace PetToyShop.Controllers
 
         // GET: Toys
         [Authorize(Roles = "Admin,Customer")]
-        public async Task<IActionResult> Index(string searchString, int petId)
+        public async Task<IActionResult> Index(int petId)
         {
             var toys = _context.Toy
                .Include(t => t.Pet)
                .AsNoTracking();
             
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                toys = toys.Where(s => s.Name.Contains(searchString));
-            }
-
             if (petId != 0)
             {
                 toys = toys.Where(s => s.PetId.Equals(petId));
